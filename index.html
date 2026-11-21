@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adventure World Online — Terras de Aurora</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+  <!-- TELA INICIAL -->
+  <section id="screen-title" class="screen active">
+    <h1>ADVENTURE WORLD<br><span>ONLINE</span></h1>
+    <p class="subtitle">Terras de Aurora — plataforma clássica multiplayer</p>
+    <div class="menu">
+      <button id="btn-campaign" class="btn big">▶ Campanha Cooperativa</button>
+      <button id="btn-race" class="btn">🏁 Corrida</button>
+      <button id="btn-time" class="btn">⏱ Desafio por Tempo</button>
+      <button id="btn-survival" class="btn">💀 Sobrevivência</button>
+      <button id="btn-howto" class="btn ghost">❓ Como Jogar</button>
+      <button id="btn-tests" class="btn ghost">🧪 Testes de Física</button>
+    </div>
+    <div class="players-setup">
+      <h3>Jogadores (até 4, mesmo teclado / gamepad)</h3>
+      <div class="slots">
+        <label><input type="checkbox" id="slot1" checked> P1 — Nilo <small>(A/D, W pular, E correr)</small></label>
+        <label><input type="checkbox" id="slot2"> P2 — Luma <small>(←/→, ↑ pular, . correr)</small></label>
+        <label><input type="checkbox" id="slot3"> P3 — Bento <small>(J/L, I pular, U correr)</small></label>
+        <label><input type="checkbox" id="slot4"> P4 — Nina <small>(Gamepad / Numpad)</small></label>
+      </div>
+      <p class="hint">Online: abra esta mesma página em outra aba — o multiplayer sincroniza entre abas (BroadcastChannel). Gamepads USB funcionam em qualquer slot.</p>
+    </div>
+    <p class="footer">Universo, personagens e arte 100% originais. Física inspirada na precisão dos clássicos 16-bit.</p>
+  </section>
+
+  <!-- COMO JOGAR -->
+  <section id="screen-howto" class="screen">
+    <h2>Como Jogar</h2>
+    <div class="howto-grid">
+      <div><h4>P1 — Nilo</h4><p>A/D mover · W pular (segure = mais alto) · E correr · S agachar · Q item reserva · F montar Tiko</p></div>
+      <div><h4>P2 — Luma</h4><p>←/→ mover · ↑ pular · . correr · ↓ agachar · , item · / montar</p></div>
+      <div><h4>P3 — Bento</h4><p>J/L mover · I pular · U correr · K agachar · O item</p></div>
+      <div><h4>P4 — Nina</h4><p>Gamepad ou Numpad 4/6 mover · 8 pular · 0 correr</p></div>
+      <div><h4>Corrida</h4><p>Segure correr para acelerar progressivamente. Em velocidade máxima você pula mais longe e pode decolar com o Manto do Vento.</p></div>
+      <div><h4>Manto do Vento (voo)</h4><p>Corra até o máximo, pule e segure ↑ para planar/subir. ↓ para mergulhar. Sem velocidade, o voo falha — é física, não botão de subir.</p></div>
+      <div><h4>Tiko (montaria)</h4><p>Encontre o Tiko, pule nele para montar. Ele corre, salta mais alto e engole inimigos (aperte pular perto dele). Variantes: Verde (equilibrada), Azul (salta mais), Amarela (corre mais).</p></div>
+      <div><h4>Itens</h4><p>Cogumelo Vital = cresce · Flor Solar = cospe fogo · Manto = voa · Estrela Lunar = invencível · Coração = vida extra. Blocos ? e ocultos escondem itens. Item reserva: aperte Q.</p></div>
+      <div><h4>Segredos</h4><p>Blocos ocultos, canos, portas e saídas alternativas (fita dourada) desbloqueiam rotas secretas no mapa-múndi.</p></div>
+      <div><h4>Multiplayer</h4><p>Câmera acompanha o grupo. Quem ficar para trás é trazido de volta (bolha de retorno). Vidas e checkpoints são compartilhados.</p></div>
+    </div>
+    <button class="btn" onclick="showScreen('screen-title')">← Voltar</button>
+  </section>
+
+  <!-- MAPA DO MUNDO -->
+  <section id="screen-map" class="screen">
+    <h2>Mapa das Terras de Aurora</h2>
+    <p id="map-progress"></p>
+    <canvas id="map-canvas" width="960" height="520"></canvas>
+    <div class="map-actions">
+      <button class="btn" onclick="showScreen('screen-title')">← Menu</button>
+      <button class="btn" id="btn-reset-save">Apagar progresso</button>
+    </div>
+  </section>
+
+  <!-- JOGO -->
+  <section id="screen-game" class="screen">
+    <div id="hud">
+      <span id="hud-level">Fase 1</span>
+      <span id="hud-players"></span>
+      <span id="hud-coins">🪙 0</span>
+      <span id="hud-time">⏱ 0</span>
+      <span id="hud-mode"></span>
+      <button id="btn-pause" class="btn small">⏸</button>
+    </div>
+    <canvas id="game-canvas" width="960" height="540"></canvas>
+    <div id="overlay"></div>
+    <p class="hint">P1: A/D mover · W pular · E correr · Q item · F montar &nbsp;|&nbsp; P2: ←/→ · ↑ · . &nbsp;|&nbsp; P3: J/L · I · U &nbsp;|&nbsp; P4: gamepad</p>
+  </section>
+</div>
+<script src="levels.js"></script>
+<script src="game.js"></script>
+</body>
+</html>
