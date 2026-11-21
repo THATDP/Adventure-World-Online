@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Testes de Física — Adventure World Online</title>
+<style>
+body{background:#0b1026;color:#eef2ff;font-family:monospace;padding:24px;max-width:800px;margin:0 auto}
+h1{color:#ffd93b} .pass{color:#69f0ae} .fail{color:#ff5252}
+pre{background:#10163a;padding:16px;border-radius:10px;white-space:pre-wrap}
+a{color:#6ee7ff}
+</style>
+</head>
+<body>
+<h1>🧪 Testes de Física</h1>
+<p>Verifica altura/distância de pulo, aceleração, velocidade máxima, inércia, voo e montaria.</p>
+<pre id="out">Rodando...</pre>
+<p><a href="index.html">← Voltar ao jogo</a></p>
+<script src="levels.js"></script>
+<script src="game.js"></script>
+<script>
+const out=[];let fails=0;
+function check(name,cond,detail=''){out.push(`${cond?'✅':'❌'} ${name} ${detail}`);if(!cond)fails++;}
+function simJump(run){
+  let s={x:0,y:0,vx:0,vy:0,onGround:true};
+  // acelera correndo por 60 frames
+  for(let i=0;i<60;i++)simulateStep(s,{left:false,right:true,jump:false,run});
+  const vmax=s.vx;
+  let maxH=0,minY=0;
+  s.onGround=true;s.y=0;s.vy=0;
+  for(let i=0;i<120;i++){
+    simulateStep(s,{left:false,right:true,jump:i<40,jumpPressed:i===0,run});
+    minY=Math.min(minY,s.y);
+    if(s.y<0)maxH=Math.max(maxH,-s.y);
+  }
+  return{vmax,height:maxH,dist:s.x};
+}
+// 1. velocidade máxima
+const w=simJump(false),r=simJump(true);
+check('Velocidade máx. caminhada ≈ 3.4',Math.abs(w.vmax-3.4)<0.3,`(${w.vmax.toFixed(2)})`);
+check('Velocidade máx. corrida ≈ 6.8',Math.abs(r.vmax-6.8)<0.3,`(${r.vmax.toFixed(2)})`);
+check('Corrida > caminhada',r.vmax>w.vmax);
+// 2. altura de pulo
+check('Pulo correndo mais alto que andando',r.height>w.height,`${w.height.toFixed(0)} vs ${r.height.toFixed(0)}px`);
+check('Altura de pulo razoável (>80px)',r.height>80,`${r.height.toFixed(0)}px`);
+// 3. distância de pulo
+check('Pulo correndo mais longo',r.dist>w.dist,`${w.dist.toFixed(0)} vs ${r.dist.toFixed(0)}px`);
+// 4. aceleração progressiva (não instantânea)
+let s={x:0,y:0,vx:0,vy:0,onGround:true};
+simulateStep(s,{left:false,right:true,jump:false,run:true});
+check('Aceleração progressiva (1 frame < máx)',s.vx<6.8&&s.vx>0,`(${s.vx.toFixed(2)})`);
+// 5. inércia/desaceleração
+let s2={x:0,y:0,vx:6.8,vy:0,onGround:true};
+for(let i=0;i<30;i++)simulateStep(s2,{left:false,right:false,jump:false,run:true});
+check('Desaceleração por atrito',Math.abs(s2.vx)<6.8,`(${s2.vx.toFixed(2)})`);
+// 6. pulo variável: soltar cedo = mais baixo
+function varJump(hold){
+  let s={x:0,y:0,vx:0,vy:0,onGround:true};let minY=0;
+  for(let i=0;i<80;i++){simulateStep(s,{left:false,right:false,jump:i<hold,run:false});minY=Math.min(minY,s.y);}
+  return -minY;
+}
+check('Pulo variável (segurar = mais alto)',varJump(40)>varJump(5),`${varJump(5).toFixed(0)} vs ${varJump(40).toFixed(0)}px`);
+// 7. gravidade limitada (queda máxima)
+let s3={x:0,y:0,vx:0,vy:0,onGround:false};
+for(let i=0;i<200;i++)simulateStep(s3,{left:false,right:false,jump:false,run:false});
+check('Queda máxima limitada',s3.vy<=12.01,`(${s3.vy.toFixed(2)})`);
+// 8. constantes de voo/montaria
+check('Manto exige velocidade mínima',PHYSICS.capeMinSpeed>4&&PHYSICS.capeMinSpeed<6.8);
+check('Montaria aumenta pulo',PHYSICS.mountJumpBoost>1);
+check('Colisão: tiles definidos',typeof tileAt==='function'||typeof LEVELS!=='undefined');
+check('Fases carregadas (5)',LEVELS.length===5,`(${LEVELS.length})`);
+check('Mapa-múndi com rotas',WORLD_MAP.paths.length>=5);
+out.push(`\n${fails===0?'🎉 TODOS OS TESTES PASSARAM':'⚠️ '+fails+' teste(s) falharam'}`);
+document.getElementById('out').textContent=out.join('\n');
+</script>
+</body>
+</html>

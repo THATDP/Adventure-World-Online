@@ -1,0 +1,207 @@
+// Adventure World Online — dados de fases (originais)
+// Legenda de tiles (32px):
+// # chão sólido | = plataforma | B quebrável | ? recompensa | H oculto | U usado
+// S interruptor | T temporária | P/p cano | D porta | G saída | g saída secreta
+// C checkpoint | ^ espinhos | ~ água | R rampa subida | r rampa descida | X bloco sólido
+// O moeda solta | * bloco de moeda
+
+const TILE = 32;
+
+const LEVELS = [
+{
+  id: "1-1", name: "Colinas de Aurora", theme: "grass", time: 300,
+  map: [
+"                                                                                                                            ",
+"                                                                                                                            ",
+"                                                                                                                            ",
+"                                                                                                                            ",
+"                                                                                                                            ",
+"                                                                                                                            ",
+"                                                                                                                            ",
+"                         ?  ?  ?                                                                             ",
+"                    X  X  X  X  X        B B B B         H      B ? B       X X X                     ",
+"           O O O          ###      O O       ###   O O O    ###  O O O   ###  O O O   O O O   O O O     ",
+"  P      ######      ##########  ########  ######  ########  ######  ########  ######  ########  ######  ",
+"  p      ######      ##########  ########  ######  ########  ######  ########  ######  ########  ######  ",
+"  p      ######      ##########  ########  ######  ########  ######  ########  ######  ########  ######  ",
+"  p      ######      ##########  ########  ######  ########  ######  ########  ######  ########  ######  ",
+"  p      ######      ##########  ########  ######  ########  ######  ########  ######  ########  ######  ",
+  ],
+  spawn: {x: 64, y: 300},
+  goal: {x: 118*32, y: 300, secret: false},
+  secretGoal: {x: 60*32, y: 300, secret: true},
+  enemies: [
+    {type:"walker", x: 20*32, y: 300}, {type:"walker", x: 30*32, y: 300},
+    {type:"flyer", x: 45*32, y: 200}, {type:"walker", x: 55*32, y: 300},
+    {type:"chaser", x: 75*32, y: 300}, {type:"walker", x: 90*32, y: 300},
+    {type:"shooter", x: 100*32, y: 300}, {type:"flyer", x: 110*32, y: 180},
+  ],
+  items: [
+    {type:"mushroom", x: 25*32, y: 200}, {type:"coin", x: 40*32, y: 200},
+    {type:"flower", x: 65*32, y: 200}, {type:"star", x: 95*32, y: 200},
+  ],
+  platforms: [
+    {x: 35*32, y: 250, w: 96, h: 16, axis:"x", range: 64, speed: 1.2},
+    {x: 80*32, y: 220, w: 96, h: 16, axis:"y", range: 48, speed: 1.0},
+  ],
+  mount: {x: 12*32, y: 300, variant: "green"},
+  secret: "Pule no bloco oculto H sobre as colinas para alcançar a saída dourada.",
+},
+{
+  id: "1-2", name: "Caverna dos Sussurros", theme: "cave", time: 300,
+  map: [
+"                                                                                                                            ",
+"                                                                                                                            ",
+"                                                                                                                            ",
+"                                                                                                                            ",
+"                                                                                                                            ",
+"          ?  ?  ?  ?                                                                                   ",
+"     X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X  ",
+"                                                                                                                            ",
+"                                                                                                                            ",
+"                                                                                                                            ",
+"                                                                                                                            ",
+"                                                                                                                            ",
+"                                                                                                                            ",
+"                                                                                                                            ",
+"############################################################################################################################",
+  ],
+  spawn: {x: 64, y: 300},
+  goal: {x: 118*32, y: 300, secret: false},
+  secretGoal: {x: 30*32, y: 300, secret: true},
+  enemies: [
+    {type:"hider", x: 25*32, y: 300}, {type:"walker", x: 40*32, y: 300},
+    {type:"armored", x: 60*32, y: 300}, {type:"flyer", x: 80*32, y: 200},
+    {type:"shooter", x: 95*32, y: 300}, {type:"chaser", x: 105*32, y: 300},
+  ],
+  items: [
+    {type:"cape", x: 50*32, y: 150}, {type:"1up", x: 85*32, y: 150},
+  ],
+  platforms: [
+    {x: 20*32, y: 280, w: 80, h: 16, axis:"x", range: 80, speed: 1.4},
+    {x: 70*32, y: 260, w: 80, h: 16, axis:"y", range: 60, speed: 1.2},
+  ],
+  mount: {x: 10*32, y: 300, variant: "blue"},
+  secret: "O cano à esquerda leva à saída secreta.",
+},
+{
+  id: "2-1", name: "Praia do Vento", theme: "beach", time: 300,
+  map: [
+"                                                                                                                            ",
+"                                                                                                                            ",
+"                                                                                                                            ",
+"                                                                                                                            ",
+"                                                                                                                            ",
+"                                                                                                                            ",
+"                                                                                                                            ",
+"                                                                                                                            ",
+"                                                                                                                            ",
+"                                                                                                                            ",
+"                                                                                                                            ",
+"                                                                                                                            ",
+"                                                                                                                            ",
+"                                                                                                                            ",
+"############################################################################################################################",
+  ],
+  spawn: {x: 64, y: 300},
+  goal: {x: 118*32, y: 300, secret: false},
+  secretGoal: {x: 90*32, y: 300, secret: true},
+  enemies: [
+    {type:"walker", x: 22*32, y: 300}, {type:"flyer", x: 35*32, y: 180},
+    {type:"chaser", x: 50*32, y: 300}, {type:"armored", x: 65*32, y: 300},
+    {type:"shooter", x: 80*32, y: 300}, {type:"hider", x: 100*32, y: 300},
+  ],
+  items: [
+    {type:"flower", x: 30*32, y: 250}, {type:"mushroom", x: 55*32, y: 250},
+    {type:"star", x: 75*32, y: 250},
+  ],
+  platforms: [
+    {x: 25*32, y: 240, w: 96, h: 16, axis:"x", range: 96, speed: 1.6},
+    {x: 60*32, y: 220, w: 96, h: 16, axis:"y", range: 64, speed: 1.4},
+    {x: 90*32, y: 240, w: 96, h: 16, axis:"x", range: 96, speed: 1.6},
+  ],
+  mount: {x: 8*32, y: 300, variant: "yellow"},
+  secret: "Use o Manto do Vento e corra para voar até a plataforma alta da saída dourada.",
+},
+{
+  id: "fort", name: "Fortaleza do Rei Pedra", theme: "fortress", time: 400, boss: "king",
+  map: [
+"                                                                                                                            ",
+"                                                                                                                            ",
+"                                                                                                                            ",
+"                                                                                                                            ",
+"                                                                                                                            ",
+"                                                                                                                            ",
+"                                                                                                                            ",
+"                                                                                                                            ",
+"                                                                                                                            ",
+"                                                                                                                            ",
+"                                                                                                                            ",
+"                                                                                                                            ",
+"                                                                                                                            ",
+"                                                                                                                            ",
+"############################################################################################################################",
+  ],
+  spawn: {x: 64, y: 300},
+  goal: {x: 118*32, y: 300, secret: false},
+  enemies: [
+    {type:"walker", x: 30*32, y: 300}, {type:"armored", x: 50*32, y: 300},
+  ],
+  items: [
+    {type:"mushroom", x: 20*32, y: 250}, {type:"flower", x: 40*32, y: 250},
+    {type:"star", x: 60*32, y: 250},
+  ],
+  platforms: [],
+  mount: {x: 10*32, y: 300, variant: "green"},
+  secret: "Pule na cabeça do Rei Pedra 3 vezes. Cuidado com os blocos que ele joga.",
+},
+{
+  id: "castle", name: "Castelo da Rainha Sombra", theme: "castle", time: 400, boss: "queen",
+  map: [
+"                                                                                                                            ",
+"                                                                                                                            ",
+"                                                                                                                            ",
+"                                                                                                                            ",
+"                                                                                                                            ",
+"                                                                                                                            ",
+"                                                                                                                            ",
+"                                                                                                                            ",
+"                                                                                                                            ",
+"                                                                                                                            ",
+"                                                                                                                            ",
+"                                                                                                                            ",
+"                                                                                                                            ",
+"                                                                                                                            ",
+"############################################################################################################################",
+  ],
+  spawn: {x: 64, y: 300},
+  goal: {x: 118*32, y: 300, secret: false},
+  enemies: [
+    {type:"flyer", x: 40*32, y: 180}, {type:"shooter", x: 70*32, y: 300},
+  ],
+  items: [
+    {type:"cape", x: 30*32, y: 250}, {type:"flower", x: 55*32, y: 250},
+    {type:"1up", x: 80*32, y: 250},
+  ],
+  platforms: [
+    {x: 45*32, y: 230, w: 96, h: 16, axis:"x", range: 64, speed: 1.2},
+  ],
+  mount: {x: 10*32, y: 300, variant: "blue"},
+  secret: "Desvie dos feixes da Rainha Sombra e acerte-a com fogo ou pulos em sequência.",
+},
+];
+
+// Mapa-múndi: nós com posições, tipo e desbloqueios
+const WORLD_MAP = {
+  nodes: [
+    {id:"1-1", x:120, y:400, type:"level", label:"1-1 Colinas"},
+    {id:"1-2", x:260, y:320, type:"level", label:"1-2 Caverna"},
+    {id:"2-1", x:400, y:400, type:"level", label:"2-1 Praia"},
+    {id:"fort", x:560, y:300, type:"fortress", label:"Fortaleza"},
+    {id:"castle", x:760, y:220, type:"castle", label:"Castelo"},
+    {id:"house", x:180, y:180, type:"house", label:"Casa da Luma"},
+    {id:"secret", x:640, y:420, type:"secret", label:"Rota Secreta"},
+  ],
+  paths: [["1-1","1-2"],["1-2","2-1"],["2-1","fort"],["fort","castle"],["1-1","house"],["2-1","secret"],["secret","castle"]],
+  unlockOrder: ["1-1","1-2","2-1","fort","castle"],
+};
